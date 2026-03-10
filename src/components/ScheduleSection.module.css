@@ -114,11 +114,13 @@
   font-family: var(--font-body);
 }
 
-.tab:hover {
-  border-color: var(--bronze-lighter);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-medium);
-  background: var(--glass-white-strong);
+@media (hover: hover) {
+  .tab:not(.tabActive):hover {
+    border-color: var(--bronze-lighter);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+    background: var(--glass-white-strong);
+  }
 }
 
 .tabActive {
@@ -128,8 +130,10 @@
   transform: translateY(-2px);
 }
 
-.tabActive:hover {
-  transform: translateY(-4px);
+@media (hover: hover) {
+  .tabActive:hover {
+    transform: translateY(-4px);
+  }
 }
 
 .tabNum {
@@ -231,9 +235,11 @@
   transition: all var(--duration-fast) var(--ease-organic);
 }
 
-.card:hover .dot {
-  background: var(--bronze);
-  box-shadow: 0 0 0 5px rgba(166, 137, 102, 0.15);
+@media (hover: hover) {
+  .card:hover .dot {
+    background: var(--bronze);
+    box-shadow: 0 0 0 5px rgba(166, 137, 102, 0.15);
+  }
 }
 
 .line {
@@ -254,11 +260,13 @@
   transition: all var(--duration-fast) var(--ease-organic);
 }
 
-.cardBody:hover {
-  box-shadow: var(--shadow-medium);
-  border-color: rgba(166, 137, 102, 0.12);
-  transform: translateX(-5px);
-  background: white;
+@media (hover: hover) {
+  .cardBody:hover {
+    box-shadow: var(--shadow-medium);
+    border-color: rgba(166, 137, 102, 0.12);
+    transform: translateX(-5px);
+    background: white;
+  }
 }
 
 .activityText {
