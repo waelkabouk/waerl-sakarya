@@ -2,32 +2,46 @@
 
 import Image from "next/image";
 import styles from "./Navbar.module.css";
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useRef } from "react";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
+  const scrollTimeout = useRef<number | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+    // Set initial scroll position
+    lastScrollY.current = window.scrollY;
 
-      // Show/hide based on scroll direction
-      if (currentScrollY > lastScrollY && currentScrollY > 200) {
-        setHidden(true);
-      } else {
-        setHidden(false);
+    const handleScroll = () => {
+      if (scrollTimeout.current !== null) {
+        cancelAnimationFrame(scrollTimeout.current);
       }
 
-      // Glassmorphism effect after scrolling past hero
-      setScrolled(currentScrollY > 80);
-      setLastScrollY(currentScrollY);
+      scrollTimeout.current = requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+
+        // Show/hide based on scroll direction (hide when scrolling down past 200px)
+        if (currentScrollY > lastScrollY.current && currentScrollY > 200) {
+          setHidden(true);
+        } else {
+          setHidden(false);
+        }
+
+        // Glassmorphism effect after scrolling past hero
+        setScrolled(currentScrollY > 80);
+        lastScrollY.current = currentScrollY;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout.current) {
+        cancelAnimationFrame(scrollTimeout.current);
+      }
+    };
+  }, []);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);

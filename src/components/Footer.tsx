@@ -72,7 +72,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className={styles.socialLink}
           >
-            <span>@waerl_sakarya</span>
+            <span>انستغرام</span>
 
             <svg
               width="18"

@@ -1,8 +1,11 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import WaveDivider from "@/components/WaveDivider";
-import ScheduleSection from "@/components/ScheduleSection";
-import Footer from "@/components/Footer";
+
+// Dynamically import below-the-fold components to reduce initial bundle size
+const ScheduleSection = dynamic(() => import("@/components/ScheduleSection"), { ssr: true });
+const WaveDivider = dynamic(() => import("@/components/WaveDivider"), { ssr: true });
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: true });
 
 export default function Home() {
   return (
