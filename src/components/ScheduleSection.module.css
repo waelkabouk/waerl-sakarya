@@ -111,14 +111,20 @@
   transition: background var(--duration-fast) var(--ease-organic),
               border-color var(--duration-fast) var(--ease-organic),
               transform var(--duration-fast) var(--ease-organic),
-              box-shadow var(--duration-fast) var(--ease-organic);
+              box-shadow var(--duration-fast) var(--ease-organic),
+              opacity var(--duration-fast) var(--ease-organic);
   min-width: 68px;
   box-shadow: var(--shadow-subtle);
   font-family: var(--font-body);
 }
 
+.tab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 @media (hover: hover) {
-  .tab:not(.tabActive):hover {
+  .tab:not(.tabActive):not(:disabled):hover {
     border-color: var(--bronze-lighter);
     transform: translateY(-3px);
     box-shadow: var(--shadow-medium);

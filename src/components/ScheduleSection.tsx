@@ -84,16 +84,20 @@ export default function ScheduleSection() {
       {/* Day Tabs — organic pill style */}
       <div className={`${styles.tabsOuter} ${isVisible ? styles.visible : ""}`}>
         <div className={styles.tabs} ref={tabsRef}>
-          {data.map((day, index) => (
-            <button
-              key={index}
-              className={`${styles.tab} ${activeDay === index ? styles.tabActive : ""}`}
-              onClick={() => setActiveDay(index)}
-            >
-              <span className={styles.tabNum}>{extractDayNumber(day.day)}</span>
-              <span className={styles.tabLabel}>رمضان</span>
-            </button>
-          ))}
+          {data.map((day, index) => {
+            const isClickable = day.day.includes("20") || day.day.includes("21");
+            return (
+              <button
+                key={index}
+                className={`${styles.tab} ${activeDay === index ? styles.tabActive : ""}`}
+                onClick={() => isClickable && setActiveDay(index)}
+                disabled={!isClickable}
+              >
+                <span className={styles.tabNum}>{extractDayNumber(day.day)}</span>
+                <span className={styles.tabLabel}>رمضان</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
