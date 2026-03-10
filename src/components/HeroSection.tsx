@@ -4,14 +4,8 @@ import styles from "./HeroSection.module.css";
 import { useEffect, useState, useRef } from "react";
 
 export default function HeroSection() {
-  const [loaded, setLoaded] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 300);
-    return () => clearTimeout(timer);
-  }, []);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -43,7 +37,7 @@ export default function HeroSection() {
       {/* Sound Control Button */}
       <button
         onClick={toggleMute}
-        className={`${styles.soundControl} ${loaded ? styles.visible : ""}`}
+        className={styles.soundControl}
         aria-label={isMuted ? "Unmute video" : "Mute video"}
       >
         {isMuted ? (
@@ -61,7 +55,7 @@ export default function HeroSection() {
       </button>
 
       {/* Scroll Indicator */}
-      <div className={`${styles.scrollIndicator} ${loaded ? styles.visible : ""}`}>
+      <div className={styles.scrollIndicator}>
         <div className={styles.scrollLine} />
       </div>
     </section>

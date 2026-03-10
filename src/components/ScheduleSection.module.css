@@ -108,7 +108,10 @@
   background: var(--glass-white);
   backdrop-filter: blur(8px);
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-organic);
+  transition: background var(--duration-fast) var(--ease-organic),
+              border-color var(--duration-fast) var(--ease-organic),
+              transform var(--duration-fast) var(--ease-organic),
+              box-shadow var(--duration-fast) var(--ease-organic);
   min-width: 68px;
   box-shadow: var(--shadow-subtle);
   font-family: var(--font-body);
@@ -232,7 +235,8 @@
   background: var(--bronze-light);
   flex-shrink: 0;
   box-shadow: 0 0 0 3px rgba(166, 137, 102, 0.1);
-  transition: all var(--duration-fast) var(--ease-organic);
+  transition: background var(--duration-fast) var(--ease-organic),
+              box-shadow var(--duration-fast) var(--ease-organic);
 }
 
 @media (hover: hover) {
@@ -257,7 +261,10 @@
   padding: var(--space-sm) var(--space-md);
   border: 1px solid rgba(166, 137, 102, 0.06);
   box-shadow: var(--shadow-subtle);
-  transition: all var(--duration-fast) var(--ease-organic);
+  transition: box-shadow var(--duration-fast) var(--ease-organic),
+              border-color var(--duration-fast) var(--ease-organic),
+              transform var(--duration-fast) var(--ease-organic),
+              background var(--duration-fast) var(--ease-organic);
 }
 
 @media (hover: hover) {

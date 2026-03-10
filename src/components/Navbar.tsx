@@ -22,14 +22,19 @@ export default function Navbar() {
         const currentScrollY = window.scrollY;
 
         // Show/hide based on scroll direction (hide when scrolling down past 200px)
-        if (currentScrollY > lastScrollY.current && currentScrollY > 200) {
-          setHidden(true);
-        } else {
-          setHidden(false);
-        }
+        const shouldHide = currentScrollY > lastScrollY.current && currentScrollY > 200;
+        setHidden((prev) => {
+          if (prev !== shouldHide) return shouldHide;
+          return prev;
+        });
 
         // Glassmorphism effect after scrolling past hero
-        setScrolled(currentScrollY > 80);
+        const shouldScroll = currentScrollY > 80;
+        setScrolled((prev) => {
+          if (prev !== shouldScroll) return shouldScroll;
+          return prev;
+        });
+        
         lastScrollY.current = currentScrollY;
       });
     };

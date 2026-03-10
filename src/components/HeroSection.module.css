@@ -88,13 +88,14 @@
   text-align: center;
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: fadeIn 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
 }
 
-.content.visible {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tagline {
@@ -133,13 +134,9 @@
   cursor: pointer;
   opacity: 0;
   transform: translateY(10px);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
   backdrop-filter: blur(4px);
-}
-
-.soundControl.visible {
-  opacity: 1;
-  transform: translateY(0);
+  animation: fadeIn 0.8s ease 0.3s forwards;
 }
 
 .soundControl:hover {
@@ -162,11 +159,13 @@
   transform: translateX(-50%);
   z-index: 3;
   opacity: 0;
-  transition: opacity 2s ease 1.5s;
+  animation: fadeInScrollIndicator 2s ease 1.5s forwards;
 }
 
-.scrollIndicator.visible {
-  opacity: 0.5;
+@keyframes fadeInScrollIndicator {
+  to {
+    opacity: 0.5;
+  }
 }
 
 .scrollLine {

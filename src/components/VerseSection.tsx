@@ -12,6 +12,7 @@ export default function VerseSection() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          if (sectionRef.current) observer.unobserve(sectionRef.current);
         }
       },
       { threshold: 0.2 }
