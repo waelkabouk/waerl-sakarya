@@ -1,0 +1,71 @@
+.wave {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  margin-top: -1px;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wavePath {
+  transition: fill 0.5s ease;
+}
+
+/* ─── Hero → Schedule: overlaps hero bottom edge ─── */
+.hero-to-verse {
+  margin-top: -120px;
+  background: transparent;
+  position: relative;
+  z-index: 4;
+}
+
+.hero-to-verse .wavePath {
+  fill: var(--ivory);
+}
+
+/* ─── Verse → Schedule: ivory into warm ivory ─── */
+.verse-to-schedule {
+  background: var(--ivory);
+}
+
+.verse-to-schedule .wavePath {
+  fill: var(--ivory-warm);
+}
+
+/* ─── Schedule → Footer: warm ivory into deeper ivory ─── */
+.schedule-to-footer {
+  background: var(--ivory-warm);
+}
+
+.schedule-to-footer .wavePath {
+  fill: var(--ivory-deep);
+}
+
+/* Flipped variant (for upside-down waves) */
+.flipped .svg {
+  transform: scaleY(-1);
+}
+
+/* Mobile: slightly taller waves for more organic feel */
+@media (max-width: 768px) {
+  .svg {
+    height: 60px;
+  }
+}
+
+@media (min-width: 769px) {
+  .svg {
+    height: 90px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .svg {
+    height: 120px;
+  }
+}

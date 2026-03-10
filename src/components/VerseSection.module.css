@@ -1,0 +1,173 @@
+.verse {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3xl) var(--space-lg);
+  background: var(--ivory);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient organic radial glow */
+.ambientGlow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(166, 137, 102, 0.06) 0%,
+    rgba(166, 137, 102, 0.02) 40%,
+    transparent 70%
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: breatheGlow 8s ease-in-out infinite;
+}
+
+@keyframes breatheGlow {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+/* Ornaments */
+.ornamentTop,
+.ornamentBottom {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  opacity: 0;
+  transition: opacity var(--duration-breath) var(--ease-gentle);
+  position: relative;
+  z-index: 1;
+}
+
+.ornamentTop.visible { opacity: 1; }
+.ornamentBottom.visible { opacity: 1; transition-delay: 600ms; }
+
+.ornLine {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--bronze-lighter), transparent);
+}
+
+.ornStar {
+  color: var(--bronze-light);
+  font-size: 0.7rem;
+  opacity: 0.5;
+}
+
+/* Main verse content */
+.verseContent {
+  text-align: center;
+  padding: var(--space-2xl) 0;
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 1.6s var(--ease-gentle) 200ms,
+              transform 1.6s var(--ease-gentle) 200ms;
+  position: relative;
+  z-index: 1;
+}
+
+.verseContent.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bismillah {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: var(--bronze);
+  font-weight: 300;
+  margin-bottom: var(--space-xl);
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.verseWrapper {
+  position: relative;
+  padding: 0 var(--space-lg);
+}
+
+/* Decorative quote marks */
+.verseWrapper::before,
+.verseWrapper::after {
+  position: absolute;
+  font-size: 5rem;
+  color: var(--bronze-lighter);
+  opacity: 0.15;
+  font-family: serif;
+  line-height: 1;
+}
+
+.verseWrapper::before {
+  content: '﴿';
+  top: -1.5rem;
+  right: -1rem;
+}
+
+.verseWrapper::after {
+  content: '﴾';
+  bottom: -1.5rem;
+  left: -1rem;
+}
+
+.verseText {
+  font-size: clamp(2rem, 5.5vw, 4rem);
+  font-weight: 700;
+  color: var(--charcoal);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  max-width: 850px;
+  margin: 0 auto;
+  background: linear-gradient(
+    135deg,
+    var(--charcoal) 0%,
+    var(--bronze-dark) 45%,
+    var(--charcoal) 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 10s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 250% center; }
+  100% { background-position: -250% center; }
+}
+
+.verseRef {
+  font-size: var(--font-size-sm);
+  color: var(--bronze);
+  font-weight: 300;
+  margin-top: var(--space-xl);
+  opacity: 0.6;
+  letter-spacing: 0.04em;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .verse {
+    min-height: 55vh;
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .ambientGlow {
+    width: 350px;
+    height: 350px;
+  }
+
+  .verseWrapper::before,
+  .verseWrapper::after {
+    font-size: 3rem;
+  }
+
+  .ornLine {
+    width: 50px;
+  }
+}

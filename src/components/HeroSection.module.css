@@ -1,0 +1,209 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Video */
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 30%, rgba(20, 15, 10, 0.2) 0%, rgba(20, 15, 10, 0.5) 100%),
+    linear-gradient(180deg,
+      rgba(20, 15, 10, 0.4) 0%,
+      rgba(20, 15, 10, 0.25) 30%,
+      rgba(20, 15, 10, 0.3) 60%,
+      rgba(20, 15, 10, 0.7) 100%
+    );
+}
+
+/* Organic floating particles */
+.particles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(166, 137, 102, 0.15), transparent);
+}
+
+.p1 {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  right: -5%;
+  animation: gentleFloat 12s ease-in-out infinite;
+}
+
+.p2 {
+  width: 200px;
+  height: 200px;
+  bottom: 20%;
+  left: 5%;
+  animation: gentleFloat 10s ease-in-out infinite 2s;
+}
+
+.p3 {
+  width: 150px;
+  height: 150px;
+  top: 40%;
+  right: 30%;
+  animation: gentleFloat 14s ease-in-out infinite 4s;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+  33% { transform: translate(15px, -20px) scale(1.05); opacity: 0.6; }
+  66% { transform: translate(-10px, 10px) scale(0.95); opacity: 0.3; }
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tagline {
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  color: rgba(196, 169, 125, 0.7);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-sm);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  font-weight: 700;
+  color: rgba(252, 250, 250, 0.95);
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Sound Control */
+.soundControl {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 10;
+  background: rgba(20, 15, 10, 0.4);
+  border: 1px solid rgba(196, 169, 125, 0.3);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(252, 250, 250, 0.8);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.soundControl.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.soundControl:hover {
+  background: rgba(196, 169, 125, 0.2);
+  color: #fff;
+  border-color: rgba(196, 169, 125, 0.6);
+  transform: scale(1.05);
+}
+
+.soundControl svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Scroll Indicator */
+.scrollIndicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 2s ease 1.5s;
+}
+
+.scrollIndicator.visible {
+  opacity: 0.5;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 45px;
+  background: linear-gradient(180deg, rgba(196, 169, 125, 0.6), transparent);
+  animation: scrollHint 2.5s ease-in-out infinite;
+}
+
+@keyframes scrollHint {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 0.5; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+/* Bottom organic fade into next section */
+.bottomFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, transparent, var(--ivory));
+  z-index: 2;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 100svh;
+  }
+
+  .p1, .p2, .p3 {
+    display: none;
+  }
+
+  .bottomFade {
+    height: 80px;
+  }
+}
