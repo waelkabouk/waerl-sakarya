@@ -15,13 +15,22 @@ interface DaySchedule {
   activities: Activity[];
 }
 
+const data = scheduleData as DaySchedule[];
+
+function getInitialDay() {
+  const hijriDay = parseInt(
+    new Intl.DateTimeFormat("en-u-ca-islamic-civil", { day: "numeric" }).format(new Date()),
+    10
+  );
+  const idx = data.findIndex((d) => d.day.includes(String(hijriDay)));
+  return idx !== -1 ? idx : 0;
+}
+
 export default function ScheduleSection() {
-  const [activeDay, setActiveDay] = useState(0);
+  const [activeDay, setActiveDay] = useState(getInitialDay);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
-
-  const data = scheduleData as DaySchedule[];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -85,7 +94,7 @@ export default function ScheduleSection() {
       <div className={`${styles.tabsOuter} ${isVisible ? styles.visible : ""}`}>
         <div className={styles.tabs} ref={tabsRef}>
           {data.map((day, index) => {
-            const isClickable = day.day.includes("20") || day.day.includes("21");
+            const isClickable = index === activeDay;
             return (
               <button
                 key={index}
