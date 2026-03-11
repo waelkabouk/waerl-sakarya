@@ -18,11 +18,13 @@ interface DaySchedule {
 const data = scheduleData as DaySchedule[];
 
 function getInitialDay() {
-  const hijriDay = parseInt(
-    new Intl.DateTimeFormat("en-u-ca-islamic-civil", { day: "numeric" }).format(new Date()),
-    10
-  );
-  const idx = data.findIndex((d) => d.day.includes(String(hijriDay)));
+  // Ramadan 1, 1447 H = Feb 19, 2026 per Turkish Diyanet
+  const ramadanStart = new Date(2026, 1, 19);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  ramadanStart.setHours(0, 0, 0, 0);
+  const ramadanDay = Math.floor((today.getTime() - ramadanStart.getTime()) / 86_400_000) + 1;
+  const idx = data.findIndex((d) => d.day.includes(String(ramadanDay)));
   return idx !== -1 ? idx : 0;
 }
 
