@@ -105,8 +105,8 @@
   padding: var(--space-sm) var(--space-md);
   border: 1px solid rgba(166, 137, 102, 0.1);
   border-radius: var(--radius-xl);
-  background: var(--glass-white);
-  backdrop-filter: blur(8px);
+  background: var(--glass-white-strong); /* Fallback to a slightly more opaque glass without blur for performance */
+  /* backdrop-filter removed for maximum scroll performance */
   cursor: pointer;
   transition: background var(--duration-fast) var(--ease-organic),
               border-color var(--duration-fast) var(--ease-organic),
@@ -201,8 +201,12 @@
   grid-template-columns: 58px 28px 1fr;
   gap: var(--space-sm);
   align-items: start;
-  animation: cardSlideIn 0.5s var(--ease-organic) both;
   padding: var(--space-xs) 0;
+  opacity: 0; /* Hidden initially, controlled by animation */
+}
+
+.timeline.visible .card {
+  animation: cardSlideIn 0.5s var(--ease-organic) both;
 }
 
 @keyframes cardSlideIn {
@@ -261,8 +265,8 @@
 
 /* Card body */
 .cardBody {
-  background: var(--glass-white-strong);
-  backdrop-filter: blur(6px);
+  background: #ffffff; /* Use solid white (or almost solid) to eliminate repaint lag on scroll */
+  /* backdrop-filter removed for maximum scroll performance */
   border-radius: var(--radius-md);
   padding: var(--space-sm) var(--space-md);
   border: 1px solid rgba(166, 137, 102, 0.06);
