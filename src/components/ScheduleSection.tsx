@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./ScheduleSection.module.css";
 import scheduleData from "@/data/itikaf-times.json";
 
@@ -67,10 +67,10 @@ export default function ScheduleSection() {
     }
   }, [activeDay]);
 
-  const extractDayNumber = (dayStr: string) => {
+  const extractDayNumber = useCallback((dayStr: string) => {
     const match = dayStr.match(/\d+/);
     return match ? match[0] : dayStr;
-  };
+  }, []);
 
   return (
     <section id="schedule" ref={sectionRef} className={styles.schedule}>
@@ -95,20 +95,17 @@ export default function ScheduleSection() {
       {/* Day Tabs — organic pill style */}
       <div className={`${styles.tabsOuter} ${isVisible ? styles.visible : ""}`}>
         <div className={styles.tabs} ref={tabsRef}>
-          {data.map((day, index) => {
-            const isClickable = index === activeDay;
-            return (
-              <button
-                key={index}
-                className={`${styles.tab} ${activeDay === index ? styles.tabActive : ""}`}
-                onClick={() => isClickable && setActiveDay(index)}
-                disabled={!isClickable}
-              >
-                <span className={styles.tabNum}>{extractDayNumber(day.day)}</span>
-                <span className={styles.tabLabel}>رمضان</span>
-              </button>
-            );
-          })}
+          {data.map((day, index) => (
+            <button
+              key={index}
+              className={`${styles.tab} ${activeDay === index ? styles.tabActive : ""}`}
+              onClick={() => setActiveDay(index)}
+              disabled={activeDay !== index}
+            >
+              <span className={styles.tabNum}>{extractDayNumber(day.day)}</span>
+              <span className={styles.tabLabel}>رمضان</span>
+            </button>
+          ))}
         </div>
       </div>
 
@@ -123,7 +120,7 @@ export default function ScheduleSection() {
           <div
             key={`${activeDay}-${index}`}
             className={styles.card}
-            style={{ animationDelay: `${index * 50}ms` }}
+            style={{ "--delay": `${index * 50}ms` } as React.CSSProperties}
           >
             {/* Time badge */}
             <div className={styles.timeBadge}>

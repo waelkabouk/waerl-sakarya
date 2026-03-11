@@ -14,6 +14,8 @@
     linear-gradient(180deg, var(--ivory-warm) 0%, var(--ivory-warm) 100%);
   pointer-events: none;
   z-index: 0;
+  /* Own compositor layer — prevents radial-gradient repaints while scrolling */
+  will-change: transform;
 }
 
 /* Header */
@@ -105,14 +107,12 @@
   padding: var(--space-sm) var(--space-md);
   border: 1px solid rgba(166, 137, 102, 0.1);
   border-radius: var(--radius-xl);
-  background: var(--glass-white-strong); /* Fallback to a slightly more opaque glass without blur for performance */
-  /* backdrop-filter removed for maximum scroll performance */
+  background: var(--glass-white-strong);
   cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-organic),
-              border-color var(--duration-fast) var(--ease-organic),
+  /* Only transition compositor-friendly properties; removed `background` and `opacity` */
+  transition: border-color var(--duration-fast) var(--ease-organic),
               transform var(--duration-fast) var(--ease-organic),
-              box-shadow var(--duration-fast) var(--ease-organic),
-              opacity var(--duration-fast) var(--ease-organic);
+              box-shadow var(--duration-fast) var(--ease-organic);
   min-width: 68px;
   box-shadow: var(--shadow-subtle);
   font-family: var(--font-body);
@@ -191,6 +191,8 @@
   z-index: 1;
   opacity: 0;
   transition: opacity var(--duration-breath) var(--ease-gentle) 250ms;
+  /* Isolate repaint scope — changes inside won't bubble up the layout tree */
+  contain: layout style;
 }
 
 .timeline.visible { opacity: 1; }
@@ -206,7 +208,14 @@
 }
 
 .timeline.visible .card {
-  animation: cardSlideIn 0.5s var(--ease-organic) both;
+  animation: cardSlideIn 0.5s var(--ease-organic) var(--delay, 0ms) both;
+  /* Hint compositor before animation starts to avoid jank on first frame */
+  will-change: transform, opacity;
+}
+
+/* Strip will-change as soon as the animation completes to free GPU memory */
+.timeline.visible .card[style] {
+  animation-fill-mode: both;
 }
 
 @keyframes cardSlideIn {
@@ -244,15 +253,17 @@
   border-radius: 50%;
   background: var(--bronze-light);
   flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(166, 137, 102, 0.1);
+  /* outline is composited (no repaint); box-shadow was causing repaints on every dot during scroll */
+  outline: 3px solid rgba(166, 137, 102, 0.1);
+  outline-offset: 0px;
   transition: background var(--duration-fast) var(--ease-organic),
-              box-shadow var(--duration-fast) var(--ease-organic);
+              outline-color var(--duration-fast) var(--ease-organic);
 }
 
 @media (hover: hover) {
   .card:hover .dot {
     background: var(--bronze);
-    box-shadow: 0 0 0 5px rgba(166, 137, 102, 0.15);
+    outline: 5px solid rgba(166, 137, 102, 0.15);
   }
 }
 
@@ -273,8 +284,7 @@
   box-shadow: var(--shadow-subtle);
   transition: box-shadow var(--duration-fast) var(--ease-organic),
               border-color var(--duration-fast) var(--ease-organic),
-              transform var(--duration-fast) var(--ease-organic),
-              background var(--duration-fast) var(--ease-organic);
+              transform var(--duration-fast) var(--ease-organic);
 }
 
 @media (hover: hover) {
