@@ -55,10 +55,16 @@ export default function ScheduleSection() {
     if (tabsRef.current) {
       const activeTab = tabsRef.current.children[activeDay] as HTMLElement;
       if (activeTab) {
-        activeTab.scrollIntoView({
+        const container = tabsRef.current;
+        const tabRect = activeTab.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        
+        // Calculate the absolute position to scroll to
+        const scrollLeft = container.scrollLeft + (tabRect.left - containerRect.left) - (containerRect.width / 2) + (tabRect.width / 2);
+        
+        container.scrollTo({
+          left: scrollLeft,
           behavior: hasMounted.current ? "smooth" : "auto",
-          block: "nearest",
-          inline: "center",
         });
       }
     }
