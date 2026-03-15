@@ -29,7 +29,8 @@ function getInitialDay() {
 }
 
 export default function ScheduleSection() {
-  const [activeDay, setActiveDay] = useState(getInitialDay);
+  const [currentDayIndex] = useState(getInitialDay);
+  const [activeDay, setActiveDay] = useState(currentDayIndex);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -51,19 +52,18 @@ export default function ScheduleSection() {
   const hasMounted = useRef(false);
 
   useEffect(() => {
-    if (!hasMounted.current) {
-      hasMounted.current = true;
-      return;
-    }
     if (tabsRef.current) {
       const activeTab = tabsRef.current.children[activeDay] as HTMLElement;
       if (activeTab) {
         activeTab.scrollIntoView({
-          behavior: "smooth",
+          behavior: hasMounted.current ? "smooth" : "auto",
           block: "nearest",
           inline: "center",
         });
       }
+    }
+    if (!hasMounted.current) {
+      hasMounted.current = true;
     }
   }, [activeDay]);
 
@@ -100,7 +100,7 @@ export default function ScheduleSection() {
               key={index}
               className={`${styles.tab} ${activeDay === index ? styles.tabActive : ""}`}
               onClick={() => setActiveDay(index)}
-              disabled={activeDay !== index}
+              disabled={index > currentDayIndex}
             >
               <span className={styles.tabNum}>{extractDayNumber(day.day)}</span>
               <span className={styles.tabLabel}>رمضان</span>
